@@ -1,6 +1,6 @@
 {
     "name": "mevada-kalpesh/repo-structure",
-    "description": "you can create your repository sstructure with of single command with all required file",
+    "description": "You can create your repository structure with a single command and all required files.",
     "type": "library",
     "license": "MIT",
     "autoload": {
