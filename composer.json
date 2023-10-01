@@ -1,0 +1,16 @@
+{
+    "name": "mevada-kalpesh/repo-structure",
+    "description": "you can create your repository sstructure with of single command with all required file",
+    "autoload": {
+        "psr-4": {
+            "MevadaKalpesh\\RepoStructure\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mevadakalpesh",
+            "email": "mevadakalpesh23@gmail.com"
+        }
+    ],
+    "require": {}
+}
