@@ -22,6 +22,5 @@
             "email": "mevadakalpesh23@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {}
+    "minimum-stability": "dev"
 }
