@@ -1,29 +1,30 @@
 {
     "name": "mevada-kalpesh/repo-structure",
     "description": "You can create your repository structure with a single command and all required files.",
-    "keywords": [
-        "mevada-kalpesh",
-        "laravel",
-        "repo-structure"
-    ],
-    "require": {
-        "php": "^8.0"
-    },
     "type": "library",
+    "keywords": ["laravel", "repository", "structure"],
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-             "Kalpesh\\RepoStructure\\": "src"
-        }
-    },
     "authors": [
         {
             "name": "mevadakalpesh",
             "email": "mevadakalpesh23@gmail.com"
         }
     ],
-    
     "minimum-stability": "dev",
-     "prefer-stable": true
-
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kalpesh\\RepoStructure\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kalpesh\\RepoStructure\\RepoStructureServiceProvider"
+            ]
+        }
+    }
 }
