@@ -1,0 +1,10 @@
+<?php
+
+namespace {{namespace}};
+
+use {{InterfaceNamespace}};
+
+class {{ClassName}} implements {{InterfaceName}}
+{
+    // put your logic here
+}
