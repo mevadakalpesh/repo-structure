@@ -1,6 +1,8 @@
 {
     "name": "mevada-kalpesh/repo-structure",
     "description": "you can create your repository sstructure with of single command with all required file",
+    "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "MevadaKalpesh\\RepoStructure\\": "src/"
@@ -12,5 +14,6 @@
             "email": "mevadakalpesh23@gmail.com"
         }
     ],
+    "minimum-stability": "stable",
     "require": {}
 }
