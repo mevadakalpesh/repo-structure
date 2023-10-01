@@ -1,46 +1,19 @@
 {
     "name": "mevada-kalpesh/repo-structure",
-    "description": "Just a new way to save data in the database",
-    "keywords": [
-        "mevada-kalpesh",
-        "laravel",
-        "repo-structure"
-    ],
-    "homepage": "https://github.com/mevadakalpesh/repo-structure/",
+    "description": "You can create your repository structure with a single command and all required files.",
+    "type": "library",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Mevada Kalpesh",
-            "email": "mevadakalpesh23@gmail.com",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": "^8.0",
-        "spatie/laravel-package-tools": "^1.4.3",
-        "illuminate/contracts": "^8.37"
-    },
-    "require-dev": {
-    },
     "autoload": {
         "psr-4": {
-            "Kalpesh\\RepoStructure\\": "src"
+            "MevadaKalpesh\\RepoStructure\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
+    "authors": [
+        {
+            "name": "mevadakalpesh",
+            "email": "mevadakalpesh23@gmail.com"
         }
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Kalpesh\\RepoStructure\\RepoStructureProvider",
-            ]
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    ],
+    "minimum-stability": "stable",
+    "require": {}
 }
