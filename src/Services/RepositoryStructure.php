@@ -3,7 +3,6 @@
 namespace Kalpesh\RepoStructure\Services;
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 
 class RepositoryStructure {
@@ -127,8 +126,6 @@ class RepositoryStructure {
 
   public function checkFileExist() {
 
-    $this->createRepoProvider();
-
     $isDirCreated = $this->makeDirectory();
 
     $interfaceName = $this->getInterfaceFileName();
@@ -188,12 +185,12 @@ class RepositoryStructure {
     $ClassName = $this->repositoryName.$this->classPrefix;
     $InterfaceName = $this->repositoryName.$this->interfacePrefix;
     $InterfaceNamespace = $this->getNamespace()['interface_namespace'].'\\'.$InterfaceName;
-    
+
     return strtr(File::get($stubFile), [
-      '{{ClassName}}'           => $ClassName,
-      '{{namespace}}'           => $this->getNamespace()['class_namespace'],
-      '{{InterfaceName}}'       => $InterfaceName,
-      '{{InterfaceNamespace}}'  => $InterfaceNamespace
+      '{{ClassName}}' => $ClassName,
+      '{{namespace}}' => $this->getNamespace()['class_namespace'],
+      '{{InterfaceName}}' => $InterfaceName,
+      '{{InterfaceNamespace}}' => $InterfaceNamespace
     ]);
 
   }
@@ -214,13 +211,6 @@ class RepositoryStructure {
       'class_namespace' => $classNamespace,
       'interface_namespace' => $interfaceNamespace,
     ];
-  }
-
-  protected function createRepoProvider() {
-    $providerPath = app_path('Providers').'/RepositoryProvider.php';
-    if (!File::exists($providerPath)) {
-      $result = Artisan::call('make:provider RepositoryProvider');
-    }
   }
 
   protected function modifyProvider() {
