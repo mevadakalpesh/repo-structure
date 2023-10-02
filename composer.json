@@ -22,8 +22,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Kalpesh\\RepoStructure\\RepoStructureProvider",
-                "App\\Providers\\RepositoryProvider"
+                "Kalpesh\\RepoStructure\\RepoStructureProvider"
             ]
         }
     }
