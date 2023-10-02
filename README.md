@@ -6,12 +6,14 @@ Repo Structure is a Laravel package that allows you to create repository structu
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via composer if this command give error add
+`:dev-main` at last as a version:
 
 ```bash
 composer require mevada-kalpesh/repo-structure
 ```
-You have to add below providers like this in config/app.php into providers array
+This step is not required but if you faceing any issue related of provider so
+you can add manully these provider in `providers` array in `config/app.php`
 
 ```bash
 Kalpesh\RepoStructure\RepoStructureProvider::class,
@@ -20,7 +22,7 @@ App\Providers\RepositoryProvider::class
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="Kalpesh\RepoStructure\RepoStructureProvider::class"
+php artisan vendor:publish --provider="Kalpesh\RepoStructure\RepoStructureProvider"
 ```
 
 This is the contents of the published config file:
