@@ -12,11 +12,9 @@ You can install the package via composer if this command give error add
 ```bash
 composer require mevada-kalpesh/repo-structure
 ```
-This step is not required but if you faceing any issue related of provider so
-you can add manully these provider in `providers` array in `config/app.php`
-
+Add This Provider in `Providers` in `config/app.php` after installing the
+package
 ```bash
-Kalpesh\RepoStructure\RepoStructureProvider::class,
 App\Providers\RepositoryProvider::class
 ```
 
