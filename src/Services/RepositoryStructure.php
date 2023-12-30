@@ -204,7 +204,7 @@ class RepositoryStructure {
   }
 
   protected function getNamespace() {
-    $rootNamespace = "App\".(string) Str::of(trim($this->setting['file_dir'], '/'))->replace(trim(app_path(), '/'), '')->trim('/');
+    $rootNamespace = "App\\".(string) Str::of(trim($this->setting['file_dir'], '/'))->replace(trim(app_path(), '/'), '')->trim('/');
     $classNamespace = $rootNamespace.'\\'.$this->classFolder;
     $interfaceNamespace = $rootNamespace.'\\'.$this->interfaceFolder;
     return [
