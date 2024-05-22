@@ -241,7 +241,7 @@ class RepositoryStructure {
     $ClassName = $this->repositoryName.$this->classPrefix;
     $InterfaceName = $this->repositoryName.$this->interfacePrefix;
     $providerContent = File::get($providerPath);
-    $codeToAdd = "\n       \$this->app->bind($InterfaceName::class, function () {\n         return new $ClassName();\n       });\n";
+    $codeToAdd = "\n       \$this->app->bind($InterfaceName::class,$ClassName::class);\n";
     $position = strpos($providerContent, 'public function register(): void');
     $position = strpos($providerContent, '{', $position);
     $this->modifyFile($providerPath, $providerContent, $codeToAdd, $position+1);
