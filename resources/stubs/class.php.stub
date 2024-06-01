@@ -3,8 +3,89 @@
 namespace {{namespace}};
 
 use {{InterfaceNamespace}};
+use {{ModelNamespace}}\{{Model}};
 
+/**
+ * Class {{ClassName}}
+ * Implements {{InterfaceName}} for managing {{Model}}
+ */
 class {{ClassName}} implements {{InterfaceName}}
 {
-    // put your logic here
+    /**
+     * Constructor to inject the model dependency
+     * 
+     * @param {{Model}} $model
+     */
+    public function __construct(
+        public {{Model}} $model
+    ) {
+    }
+
+    /**
+     * Retrieve the first {{Model}} matching the given criteria.
+     *
+     * @param array $where Conditions to filter the query.
+     * @param array $with  Relationships to load with the query.
+     * @return mixed       The first {{Model}} that matches the criteria.
+     */
+    public function first(array $where = [], array $with = [])
+    {
+        return $this->model
+               ->where($where)
+               ->with($with)
+               ->first();
+    }
+
+    /**
+     * Retrieve all {{Model}} matching the given criteria.
+     *
+     * @param array $where Conditions to filter the query.
+     * @param array $with  Relationships to load with the query.
+     * @return mixed       A collection of {{Model}} that match the criteria.
+     */
+    public function get(array $where = [], array $with = [])
+    {
+        return $this->model
+               ->where($where)
+               ->with($with)
+               ->get();
+    }
+
+    /**
+     * Create a new {{Model}} with the given data.
+     *
+     * @param array $data Data to create a new {{Model}}.
+     * @return mixed      The created {{Model}}.
+     */
+    public function create(array $data = [])
+    {
+        return $this->model->create($data);
+    }
+
+    /**
+     * Update {{Model}} matching the given criteria with the provided data.
+     *
+     * @param array $where Conditions to filter the query.
+     * @param array $data  Data to update the {{Model}}(s).
+     * @return mixed       The result of the update operation.
+     */
+    public function update(array $where = [], array $data = [])
+    {
+        return $this->model
+               ->where($where)
+               ->update($data);
+    }
+
+    /**
+     * Delete {{Model}} matching the given criteria.
+     *
+     * @param array $where Conditions to filter the query.
+     * @return mixed       The result of the delete operation.
+     */
+    public function delete(array $where = [])
+    {
+        return $this->model
+               ->where($where)
+               ->delete();
+    }
 }
