@@ -27,4 +27,24 @@ return [
   */
   "class_folder" => "Classes",
 
+  /**
+  * Service Folder Name
+  */
+  "service_folder" => app_path('Service'),
+  
+  /**
+  * Prefix of Service File Example PostService
+  */
+  "service_file_prefix" => "Service",
+
+  /**
+  * Prefix of Service File Example PostService
+  */
+  "Interface_repo_bind_name" => "Repository",
+  
+  /**
+  * Your Modal Path
+  */
+  "model_path" => app_path('Models'),
+  
 ];
