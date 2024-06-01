@@ -24,6 +24,9 @@ class RepositoryStructure {
     $this->interfaceFolder = ucfirst(Str::camel($this->setting['interface_folder']));
     $this->interfacePrefix = ucfirst(Str::camel($this->setting['interface_file_prefix']));
     $this->classPrefix = ucfirst(Str::camel($this->setting['class_file_prefix']));
+    $this->serviceFolder = ucfirst(Str::camel($this->setting['service_folder']));
+    $this->servicePrefix = ucfirst(Str::camel($this->setting['service_file_prefix']));
+    $this->InterfaceBindName = ucfirst(Str::camel($this->setting['Interface_repo_bind_name']));
   }
 
   public function execute() {
@@ -38,7 +41,7 @@ class RepositoryStructure {
 
       return $this->message;
     } catch(\Exception $e) {
-      throw $e->getMessage();
+      throw $e;
     }
 
   }
@@ -73,6 +76,7 @@ class RepositoryStructure {
   protected function createSubFolders() {
     $classFolder = $this->classFolder;
     $InterfaceFolder = $this->interfaceFolder;
+    $serviceFolder = $this->serviceFolder;
 
     if (!File::exists($this->setting['file_dir'].'/'.$classFolder)) {
       File::makeDirectory($this->setting['file_dir'].'/'.$classFolder, 0755, true);
@@ -81,6 +85,11 @@ class RepositoryStructure {
     if (!File::exists($this->setting['file_dir'].'/'.$InterfaceFolder)) {
       File::makeDirectory($this->setting['file_dir'].'/'.$InterfaceFolder, 0755, true);
     }
+    
+    if (!File::exists($this->setting['service_folder'])) {
+      File::makeDirectory($this->setting['service_folder'], 0755, true);
+    }
+    
   }
 
   protected function makeFile() {
@@ -99,6 +108,7 @@ class RepositoryStructure {
       $this->message = "Both Files Replaced Successfully..!";
       $this->createInterface();
       $this->createClass();
+      $this->createService();
     }
 
     if ($this->choice == null) {
@@ -121,6 +131,15 @@ class RepositoryStructure {
     $interfaceStub = $this->geInterfaceStub();
     if (!blank($interfaceName)) {
       File::put($interfaceName, $interfaceStub);
+    }
+  }
+
+
+  protected function createService() {
+    $serviceName = $this->getServiceFileName();
+    $serviceStub = $this->geServiceStub();
+    if (!blank($serviceName)) {
+      File::put($serviceName, $serviceStub);
     }
   }
 
@@ -159,6 +178,14 @@ class RepositoryStructure {
     return $interfaceFileNameWithPath;
   }
 
+  protected function getServiceFileName() : string
+  {
+    $serviceFileName = trim($this->repositoryName.$this->servicePrefix);
+    $serviceFolder = rtrim($this->setting['service_folder'], '/');
+    $serviceFileNameWithPath = "$serviceFolder/$serviceFileName.php";
+    return $serviceFileNameWithPath;
+  }
+
   protected function getClassFileName() : string
   {
     $classPrefix = $this->classPrefix;
@@ -177,24 +204,58 @@ class RepositoryStructure {
       '{{InterfaceName}}' => $InterfaceName,
       '{{namespace}}' => $this->getNamespace()['interface_namespace']
     ]);
+  }
+
+  protected function geServiceStub() {
+
+    $stubFile = __DIR__.'/../../resources/stubs/service.php.stub';
+    $serviceName = $this->repositoryName.$this->servicePrefix;
+    $namespaceArray = $this->getNamespace();
+    
+    return strtr(File::get($stubFile), [
+      '{{serviceName}}' => $serviceName,
+      '{{namespace}}' => $namespaceArray['service_namespace'],
+      '{{interfaceNamespace}}' => $this->getInterfaceNamespace(),
+      '{{repositoryName}}' => $this->repositoryName.$this->interfacePrefix,
+      '{{repositoryNameVariable}}' => lcfirst(Str::studly($this->getRepositoryBindName())),
+      '{{coreRepoName}}' => ucwords($this->repositoryName)
+    ]);
 
   }
+
+  protected function getRepositoryBindName() {
+    return $this->repositoryName.$this->InterfaceBindName;
+  }
+
+  protected function getInterfaceNamespace() {
+    $namespaceArray = $this->getNamespace();
+    return $namespaceArray['interface_namespace'].'\\'.$this->repositoryName.$this->interfacePrefix;
+  }
+
+  protected function getClassNamespace() {
+    $namespaceArray = $this->getNamespace();
+    return $namespaceArray['class_namespace'].'\\'.$this->repositoryName.$this->classPrefix;
+  }
+
 
   protected function geClassStub() {
     $stubFile = __DIR__.'/../../resources/stubs/class.php.stub';
     $ClassName = $this->repositoryName.$this->classPrefix;
     $InterfaceName = $this->repositoryName.$this->interfacePrefix;
     $InterfaceNamespace = $this->getNamespace()['interface_namespace'].'\\'.$InterfaceName;
-
+    $ModelNamespace = "App\\".(string)Str::of(trim($this->setting['model_path'], '/'))->replace(trim(app_path(),'/'), '')->trim('/');
+    $Model = ucfirst($this->repositoryName);
+    
     return strtr(File::get($stubFile), [
-      '{{ClassName}}' => $ClassName,
-      '{{namespace}}' => $this->getNamespace()['class_namespace'],
+      '{{ClassName}}'     => $ClassName,
+      '{{namespace}}'     => $this->getNamespace()['class_namespace'],
       '{{InterfaceName}}' => $InterfaceName,
-      '{{InterfaceNamespace}}' => $InterfaceNamespace
+      '{{InterfaceNamespace}}' => $InterfaceNamespace,
+      '{{ModelNamespace}}'  => $ModelNamespace,
+      '{{Model}}' => $Model
     ]);
-
   }
-
+  
   protected function checkDirBelongsFromAppPath() : bool
   {
     return Str::contains(
@@ -205,11 +266,14 @@ class RepositoryStructure {
 
   protected function getNamespace() {
     $rootNamespace = "App\\".(string) Str::of(trim($this->setting['file_dir'], '/'))->replace(trim(app_path(), '/'), '')->trim('/');
+    $serviceNamespace = "App\\".(string) Str::of(trim($this->setting['service_folder'], '/'))->replace(trim(app_path(), '/'), '')->trim('/');
     $classNamespace = $rootNamespace.'\\'.$this->classFolder;
     $interfaceNamespace = $rootNamespace.'\\'.$this->interfaceFolder;
+    
     return [
       'class_namespace' => $classNamespace,
       'interface_namespace' => $interfaceNamespace,
+      'service_namespace' => $serviceNamespace,
     ];
   }
 
@@ -229,8 +293,8 @@ class RepositoryStructure {
 
   protected function addNamespaceToFile(string $providerPath, string $providerContent) {
     $namespaceArray = $this->getNamespace();
-    $classNamespace = $namespaceArray['class_namespace'].'\\'.$this->repositoryName.$this->classPrefix;
-    $interfaceNamespace = $namespaceArray['interface_namespace'].'\\'.$this->repositoryName.$this->interfacePrefix;
+    $classNamespace = $this->getInterfaceNamespace();
+    $interfaceNamespace = $this->getClassNamespace();
     $namespace = "\nuse $classNamespace; \nuse $interfaceNamespace; \n";
     $position = strpos($providerContent, 'class RepositoryProvider extends ServiceProvider');
     $this->modifyFile($providerPath, $providerContent, $namespace, $position);
