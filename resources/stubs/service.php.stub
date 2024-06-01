@@ -1,0 +1,92 @@
+<?php
+
+namespace {{namespace}};
+
+use {{interfaceNamespace}};
+
+/**
+ * Service class for handling {{coreRepoName}} related operations.
+ */
+class {{serviceName}}
+{
+    /**
+     * Constructor method.
+     *
+     * @param {{repositoryName}} ${{repositoryNameVariable}} The repository instance.
+     */
+    public function __construct(
+        public {{repositoryName}} ${{repositoryNameVariable}}
+    ) {
+    }
+
+    /**
+     * Retrieve the first {{coreRepoName}} record matching the criteria.
+     *
+     * @param array $where Conditions to match.
+     * @param array $with  Relationships to load.
+     * @return mixed The first matching record.
+     */
+    public function first{{coreRepoName}}(array $where = [], array $with = [])
+    {
+        return $this->{{repositoryNameVariable}}->first(
+            where: $where,
+            with: $with
+        );
+    }
+
+    /**
+     * Retrieve all {{coreRepoName}} records matching the criteria.
+     *
+     * @param array $where Conditions to match.
+     * @param array $with  Relationships to load.
+     * @return mixed The collection of matching records.
+     */
+    public function get{{coreRepoName}}(array $where = [], array $with = [])
+    {
+        return $this->{{repositoryNameVariable}}->get(
+            where: $where,
+            with: $with
+        );
+    }
+
+    /**
+     * Create a new {{coreRepoName}} record.
+     *
+     * @param array $data Data for the new record.
+     * @return mixed The created record.
+     */
+    public function create{{coreRepoName}}(array $data = [])
+    {
+        return $this->{{repositoryNameVariable}}->create(
+            data: $data
+        );
+    }
+
+    /**
+     * Update existing {{coreRepoName}} records matching the criteria.
+     *
+     * @param array $where Conditions to match.
+     * @param array $data  Data to update.
+     * @return mixed The result of the update operation.
+     */
+    public function update{{coreRepoName}}(array $where = [], array $data = [])
+    {
+        return $this->{{repositoryNameVariable}}->update(
+            where: $where,
+            data: $data
+        );
+    }
+
+    /**
+     * Delete {{coreRepoName}} records matching the criteria.
+     *
+     * @param array $where Conditions to match.
+     * @return mixed The result of the delete operation.
+     */
+    public function delete{{coreRepoName}}(array $where = [])
+    {
+        return $this->{{repositoryNameVariable}}->delete(
+            where: $where
+        );
+    }
+}
