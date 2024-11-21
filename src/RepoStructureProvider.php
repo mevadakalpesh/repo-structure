@@ -33,6 +33,10 @@ class RepoStructureProvider extends ServiceProvider
       __DIR__.'/Config/repo-sturcture.php' => config_path("repo-sturcture.php")
     ], "config");
     
+    $this->publishes([
+        __DIR__.'/resources/stubs' => base_path('stubs'),
+    ], 'stubs');
+
     $this->createRepositoryProvider();
     
   }
