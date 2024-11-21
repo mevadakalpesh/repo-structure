@@ -264,6 +264,24 @@ class PostService
 
 ```
 
+## Customizing Stub Files
+
+The following stub files are available for customization:
+
+- **`repo-interface.php.stub`**
+- **`repo-service.php.stub`**
+- **`repo-class.php.stub`**
+
+To modify the default code in these files, you need to publish the stub files to your project. After publishing, you can modify the contents of these files as per your needs.
+
+### Publishing Stub Files
+
+Run the following Artisan command to publish the stub files to your project:
+
+```bash
+php artisan vendor:publish --provider="Vendor\Package\PackageServiceProvider" --tag="stubs"
+```
+
 
 Make sure you add the namespace correctly as shown above.
 
