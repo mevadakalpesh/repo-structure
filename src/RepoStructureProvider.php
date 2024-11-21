@@ -34,7 +34,7 @@ class RepoStructureProvider extends ServiceProvider
     ], "config");
     
     $this->publishes([
-        __DIR__.'/resources/stubs' => base_path('stubs'),
+        __DIR__.'../resources/stubs' => base_path('stubs'),
     ], 'stubs');
 
     $this->createRepositoryProvider();
