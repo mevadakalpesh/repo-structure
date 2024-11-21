@@ -195,9 +195,13 @@ class RepositoryStructure {
     $classFileNameWithPath = "$directoryPath/$classFolder/$classFileName.php";
     return $classFileNameWithPath;
   }
-
+  protected function getStubFilePath($name) {
+    $publishedStubPath = base_path("stubs/repo-$name.php.stub");
+    $defaultStubPath = __DIR__ . "/../../resources/stubs/repo-$name.php.stub";
+    return file_exists($publishedStubPath) ? $publishedStubPath : $defaultStubPath;
+  }
   protected function geInterfaceStub() {
-    $stubFile = __DIR__.'/../../resources/stubs/repo-interface.php.stub';
+    $stubFile = $this->getStubFilePath("interface");
     $InterfaceName = $this->repositoryName.$this->interfacePrefix;
 
     return strtr(File::get($stubFile), [
@@ -207,8 +211,7 @@ class RepositoryStructure {
   }
 
   protected function geServiceStub() {
-
-    $stubFile = __DIR__.'/../../resources/stubs/repo-service.php.stub';
+    $stubFile = $this->getStubFilePath("service");
     $serviceName = $this->repositoryName.$this->servicePrefix;
     $namespaceArray = $this->getNamespace();
     
@@ -239,7 +242,8 @@ class RepositoryStructure {
 
 
   protected function geClassStub() {
-    $stubFile = __DIR__.'/../../resources/stubs/repo-class.php.stub';
+    
+    $stubFile = $this->getStubFilePath("class");
     $ClassName = $this->repositoryName.$this->classPrefix;
     $InterfaceName = $this->repositoryName.$this->interfacePrefix;
     $InterfaceNamespace = $this->getNamespace()['interface_namespace'].'\\'.$InterfaceName;
@@ -305,7 +309,7 @@ class RepositoryStructure {
     $ClassName = $this->repositoryName.$this->classPrefix;
     $InterfaceName = $this->repositoryName.$this->interfacePrefix;
     $providerContent = File::get($providerPath);
-    $codeToAdd = "\n       \$this->app->bind($InterfaceName::class,$ClassName::class);\n";
+    $codeToAdd = "\n       \$this->app->singleton($InterfaceName::class,$ClassName::class);\n";
     $position = strpos($providerContent, 'public function register(): void');
     $position = strpos($providerContent, '{', $position);
     $this->modifyFile($providerPath, $providerContent, $codeToAdd, $position+1);
