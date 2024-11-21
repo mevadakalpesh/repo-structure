@@ -197,7 +197,7 @@ class RepositoryStructure {
   }
 
   protected function geInterfaceStub() {
-    $stubFile = __DIR__.'/../../resources/stubs/interface.php.stub';
+    $stubFile = __DIR__.'/../../resources/stubs/repo-interface.php.stub';
     $InterfaceName = $this->repositoryName.$this->interfacePrefix;
 
     return strtr(File::get($stubFile), [
@@ -208,7 +208,7 @@ class RepositoryStructure {
 
   protected function geServiceStub() {
 
-    $stubFile = __DIR__.'/../../resources/stubs/service.php.stub';
+    $stubFile = __DIR__.'/../../resources/stubs/repo-service.php.stub';
     $serviceName = $this->repositoryName.$this->servicePrefix;
     $namespaceArray = $this->getNamespace();
     
@@ -239,7 +239,7 @@ class RepositoryStructure {
 
 
   protected function geClassStub() {
-    $stubFile = __DIR__.'/../../resources/stubs/class.php.stub';
+    $stubFile = __DIR__.'/../../resources/stubs/repo-class.php.stub';
     $ClassName = $this->repositoryName.$this->classPrefix;
     $InterfaceName = $this->repositoryName.$this->interfacePrefix;
     $InterfaceNamespace = $this->getNamespace()['interface_namespace'].'\\'.$InterfaceName;
