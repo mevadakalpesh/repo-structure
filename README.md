@@ -1,6 +1,6 @@
 # Repo Structure
 
-Repo Structure is a Laravel package that allows you to create repository structure with single command including class,interface,Provider as well as binding code.
+Repo Structure is a Laravel package that allows you to create repository structure with single command including class,interface,Provider as well as binding code and Service with Common functions.
 
 ---
 
@@ -56,7 +56,27 @@ return [
   * Class Folder Name
   */
   "class_folder" => "Classes",
+  
+  /**
+  * Service Folder Name
+  */
+  "service_folder" => app_path('Service'),
+  
+  /**
+  * Prefix of Service File Example PostService
+  */
+  "service_file_prefix" => "Service",
 
+  /**
+  * Prefix of Service File Example PostService
+  */
+  "Interface_repo_bind_name" => "Repository",
+  
+  /**
+  * Your Modal Path
+  */
+  "model_path" => app_path('Models'),
+  
 ];
 ```
 
@@ -78,6 +98,8 @@ after run this commad it will create like this file structure
           -- PostRepositoryClass.php
        -- Interfces
            -- PostRepositoryInterface.php
+    -- Service
+       -- PostService.php
 ```
 
  Your Repository Class `PostRepositoryClass.php` something looks like 
@@ -143,6 +165,105 @@ class RepositoryProvider extends ServiceProvider
 }
 
 ```
+
+Your Service `PostService.php` something looks like.
+
+```php
+<?php
+
+namespace App\Service;
+
+use App\Repository\Interfaces\PostRepositoryInterface;
+
+/**
+ * Service class for handling Post related operations.
+ */
+class PostService
+{
+    /**
+     * Constructor method.
+     *
+     * @param PostRepositoryInterface $postRepository The repository instance.
+     */
+    public function __construct(
+        public PostRepositoryInterface $postRepository
+    ) {
+    }
+
+    /**
+     * Retrieve the first Post record matching the criteria.
+     *
+     * @param array $where Conditions to match.
+     * @param array $with  Relationships to load.
+     * @return mixed The first matching record.
+     */
+    public function firstPost(array $where = [], array $with = [])
+    {
+        return $this->postRepository->first(
+            where: $where,
+            with: $with
+        );
+    }
+
+    /**
+     * Retrieve all Post records matching the criteria.
+     *
+     * @param array $where Conditions to match.
+     * @param array $with  Relationships to load.
+     * @return mixed The collection of matching records.
+     */
+    public function getPost(array $where = [], array $with = [])
+    {
+        return $this->postRepository->get(
+            where: $where,
+            with: $with
+        );
+    }
+
+    /**
+     * Create a new Post record.
+     *
+     * @param array $data Data for the new record.
+     * @return mixed The created record.
+     */
+    public function createPost(array $data = [])
+    {
+        return $this->postRepository->create(
+            data: $data
+        );
+    }
+
+    /**
+     * Update existing Post records matching the criteria.
+     *
+     * @param array $where Conditions to match.
+     * @param array $data  Data to update.
+     * @return mixed The result of the update operation.
+     */
+    public function updatePost(array $where = [], array $data = [])
+    {
+        return $this->postRepository->update(
+            where: $where,
+            data: $data
+        );
+    }
+
+    /**
+     * Delete Post records matching the criteria.
+     *
+     * @param array $where Conditions to match.
+     * @return mixed The result of the delete operation.
+     */
+    public function deletePost(array $where = [])
+    {
+        return $this->postRepository->delete(
+            where: $where
+        );
+    }
+}
+
+```
+
 
 Make sure you add the namespace correctly as shown above.
 
